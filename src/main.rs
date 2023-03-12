@@ -5,7 +5,7 @@ use debug_plugin::DebugPlugin;
 #[cfg(debug_assertions)]
 mod debug_plugin;
 
-use bevy::prelude::*;
+use bevy::{prelude::*, window::WindowResolution};
 use camera::CameraPlugin;
 use config::*;
 
@@ -17,13 +17,12 @@ fn main() {
     let mut app = App::new();
 
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        window: WindowDescriptor {
-            width: WIN_WIDTH,
-            height: WIN_HEIGHT,
+        primary_window: Some(Window {
+            resolution: WindowResolution::new(WIN_WIDTH, WIN_HEIGHT),
             title: WIN_TITLE.to_string(),
             fit_canvas_to_parent: true,
             ..default()
-        },
+        }),
         ..default()
     }));
 

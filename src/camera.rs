@@ -30,14 +30,14 @@ impl Plugin for CameraPlugin {
 fn setup_camera(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
     // Set up windows camera
     let mut windows_camera = Camera2dBundle::default();
-    windows_camera.projection.scaling_mode = ScalingMode::Auto {
+    windows_camera.projection.scaling_mode = ScalingMode::AutoMin {
         min_width: WIN_WIDTH,
         min_height: WIN_HEIGHT,
     };
     // Set up clear color
     windows_camera.camera_2d.clear_color = ClearColorConfig::Custom(WINDOWS_CAMERA_CLEAR_COLOR);
-    // Set up camera priority to be the last
-    windows_camera.camera.priority = 2;
+    // Set up camera order to be the last
+    windows_camera.camera.order = 2;
     // Spawn windows camera
     commands
         .spawn(windows_camera)
@@ -70,7 +70,7 @@ fn setup_camera(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
     );
     // By default an image can't be used as a render target so we need to setup the render target falg
     render_target_image.texture_descriptor.usage |= TextureUsages::RENDER_ATTACHMENT;
-    // Add the render targe to the image assets
+    // Add the render target to the image assets
     let render_target_handle = images.add(render_target_image);
     // Spawn render target on the world
     commands
@@ -87,8 +87,8 @@ fn setup_camera(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
     // Set up the render target created previously as target
     game_camera.camera.target = RenderTarget::Image(render_target_handle);
     game_camera.camera_2d.clear_color = ClearColorConfig::Custom(GAME_CAMERA_CLEAR_COLOR);
-    // Give the game camere the highest priority
-    game_camera.camera.priority = 1;
+    // Give the game camere the highest order
+    game_camera.camera.order = 1;
     // Spawn game camera
     commands
         .spawn(game_camera)

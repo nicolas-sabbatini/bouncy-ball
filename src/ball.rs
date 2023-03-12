@@ -40,13 +40,13 @@ fn init_ball(
 ) {
     let mut rng = rand::thread_rng();
 
-    for _i in 0..BALLS_AMOUNT {
+    for i in 0..BALLS_AMOUNT {
         commands.spawn((
             Ball,
             MaterialMesh2dBundle {
                 mesh: meshes.add(shape::Circle::new(BALL_RADIUS).into()).into(),
                 material: materials.add(ColorMaterial::from(random_color(&mut rng))),
-                transform: Transform::from_translation(Vec3::new(0.0, 0.0, 0.0)),
+                transform: Transform::from_translation(Vec3::new(0.0, 0.0, i as f32)),
                 ..default()
             },
             Speed {
